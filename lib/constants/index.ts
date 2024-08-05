@@ -3,6 +3,7 @@ import {Bookmark, Compass, HomeIcon, UserIcon} from 'lucide-react';
 
 export const USER="USER"
 export const NEWS="NEWS"
+export const ISLOADING="ISLOADING"
 
 export const SignInInitVals={
     email:'',

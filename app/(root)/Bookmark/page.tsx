@@ -3,6 +3,7 @@ import Loader from '@/components/auth/Loader';
 import TrendingItem from '@/components/shared/TrendingItem';
 import { getAllUserSaves } from '@/lib/database/actions/save.actions';
 import { getCurrUser } from '@/lib/redux/actions';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,6 +12,8 @@ const Bookmark = () => {
   const currUser=useSelector((state:any)=> state.address.currUser);
   const dispatch=useDispatch();
   const [allTrending, setAllTrending] = useState<any>([]);
+  const isLoading=useSelector((state:any)=> state.address.isLoading);
+  const router=useRouter();
 
   useEffect(()=> {
     dispatch(getCurrUser());
@@ -29,7 +32,12 @@ const Bookmark = () => {
     fetchData();
   },[currUser])
 
-  if(!currUser) return <Loader />
+  
+  if(isLoading) return <Loader />
+
+  if(!currUser) {
+    router.push("/SignIn");
+  }
 
   console.log("Bookmark",allTrending);
 

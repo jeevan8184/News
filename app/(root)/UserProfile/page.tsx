@@ -24,9 +24,11 @@ import Loader from '@/components/auth/Loader';
 const UserProfile = () => {
 
   const currUser=useSelector((state:any)=> state.address.currUser);
+  const isLoading=useSelector((state:any)=> state.address.isLoading);
   const dispatch=useDispatch();
   const router=useRouter();
   const [picVal, setPicVal] = useState(currUser?.photo);
+  
 
   useEffect(()=> {
     dispatch(getCurrUser());
@@ -49,8 +51,13 @@ const UserProfile = () => {
     dispatch(getCurrUser());
     router.push("/SignIn");
   }
+
+  if(isLoading) return <Loader />
+
+  if(!currUser) {
+    router.push("/SignIn");
+  }
   
-  if(!currUser) return <Loader />
   return (
     <div className='pt-20 max-sm:pt-4 px-2'>
       <div className=' flex max-sm:flex-col gap-2 max-sm:gap-8'>
@@ -59,7 +66,9 @@ const UserProfile = () => {
           <div className=' flex flex-col gap-1'>
             <p className=''><strong>username : </strong>{currUser?.username}</p>
             <p className=''><strong>mobileNo : </strong>{currUser?.mobileNo}</p>
-            <p className=''><strong>loggedin At : </strong>{formatDistanceToNow(new Date(currUser?.createdAt),{ addSuffix: true })}</p>
+            {currUser && (
+              <p className=''><strong>loggedin At : </strong>{formatDistanceToNow(new Date(currUser?.createdAt),{ addSuffix: true })}</p>
+            )}
             <AlertDialog>
               <AlertDialogTrigger className=' w-fit'>
                 <p className=' text-red-500 flex-start px-6 py-1.5 rounded-md bg-red-500/10 w-fit overflow-hidden'>Logout</p>

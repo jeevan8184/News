@@ -6,15 +6,26 @@ import Trending from "@/components/shared/Trending";
 import TopHeadlines from "@/components/shared/TopHeadlines";
 import Latest from "@/components/shared/Latest";
 import SearchPage from "@/components/shared/SearchPage";
+import Loader from "@/components/auth/Loader";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 
   const currUser=useSelector((state:any)=> state.address.currUser);
+  const isLoading=useSelector((state:any)=> state.address.isLoading);
+  const router=useRouter();
+
   const dispatch=useDispatch();
 
   useEffect(()=> {
     dispatch(getCurrUser());
   },[]);
+
+  if(isLoading) return <Loader />
+
+  if(!currUser) {
+    router.push("/SignIn");
+  }
 
   console.log("curruser",currUser);
   

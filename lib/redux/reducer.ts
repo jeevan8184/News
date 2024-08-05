@@ -1,7 +1,7 @@
 
 
 import {AnyAction} from 'redux'
-import { NEWS, USER } from '../constants'
+import { ISLOADING, NEWS, USER } from '../constants'
 
 interface InitialStateParams {
     
@@ -9,7 +9,8 @@ interface InitialStateParams {
 
 const InitialState:InitialStateParams={
     currUser:null,
-    currNews:null
+    currNews:null,
+    isLoading:false
 } 
 
 const reducer=(state=InitialState,action:AnyAction)=>{
@@ -19,6 +20,8 @@ const reducer=(state=InitialState,action:AnyAction)=>{
             return {...state,currUser:action?.payload}
         case NEWS:
             return {...state,currNews:action?.payload}
+        case ISLOADING:
+            return {...state,isLoading:action?.payload}
         default:
             return state
     }
